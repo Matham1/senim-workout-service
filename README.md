@@ -1,0 +1,66 @@
+# Senim Workout Service
+
+## Описание
+
+Микросервис для отслеживания и учёта повторений упражнений в реальном времени с помощью WebSocket и хранения результатов в базе данных PostgreSQL. Использует FastAPI, Redis для античит-логики и асинхронную работу с БД через SQLAlchemy.
+
+## Основные возможности
+
+- Подключение по WebSocket для получения событий о повторениях (`rep_detected`)
+- Античит-логика с использованием Redis (дебаунсинг повторений)
+- Сохранение итоговых результатов тренировки в PostgreSQL
+- REST API для завершения тренировки и получения ID сохранённой сессии
+
+## Технологии
+
+- Python 3.11
+- FastAPI
+- Redis (asyncio)
+- PostgreSQL
+- SQLAlchemy (async)
+- Alembic (миграции)
+- Docker, Docker Compose
+
+## Быстрый старт
+
+1. **Клонируйте репозиторий:**
+   ```sh
+   git clone <repo-url>
+   cd senim-workout-service
+   ```
+
+2. **Создайте файл `.env` (пример уже в репозитории):**
+   ```
+   REDIS_URL=redis://redis:6379/0
+   DATABASE_URL=postgresql+asyncpg://postgres:postgres@db:5432/senim
+   ```
+
+3. **Запустите сервисы через Docker Compose:**
+   ```sh
+   docker-compose up --build
+   ```
+
+4. **Миграции БД выполняются автоматически при запуске.**
+
+## Основные эндпоинты
+
+- `GET /` — Проверка работоспособности сервиса
+- `POST /workout/finish` — Завершение тренировки, сохранение результата
+- `WS /ws/workout` — WebSocket для отправки событий о повторениях
+
+## Пример работы WebSocket
+
+1. Подключитесь к `ws://localhost:8000/ws/workout`
+2. Отправляйте сообщения:
+   ```json
+   {"event": "rep_detected", "type": "squat"}
+   ```
+3. Получайте ответы с текущим количеством повторений.
+
+## Миграции
+
+Для ручного управления миграциями используйте:
+```sh
+alembic revision --autogenerate -m "описание"
+alembic upgrade head
+```
