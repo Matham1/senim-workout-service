@@ -11,9 +11,12 @@ logger = logging.getLogger("uvicorn")
 @router.websocket("/ws/workout")
 async def workout_endpoint(websocket: WebSocket):
     await websocket.accept()
-    
-    # 1. Generate internal Session ID immediately
+
+    # Assign a unique session ID for this connection
     current_session_id = str(uuid.uuid4())
+    # update global session_id (this is not best practice at all, but for demo purposes)
+    import app.core.session_state
+    app.core.session_state.session_id = current_session_id
     last_known_reps = 0
     
     logger.info(f"New connection. Assigned Session ID: {current_session_id}")
@@ -31,7 +34,6 @@ async def workout_endpoint(websocket: WebSocket):
                 if redis_reps == 0 and last_known_reps > 0:
                     current_session_id = str(uuid.uuid4())
                     last_known_reps = 0
-                    await websocket.send_json({"event": "session_start", "session_id": current_session_id})
 
                 # Process the rep using the current session ID
                 current_reps = await workout_service.process_rep(current_session_id) #

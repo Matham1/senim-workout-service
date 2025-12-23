@@ -46,6 +46,7 @@
 
 - `GET /` — Проверка работоспособности сервиса
 - `POST /workout/finish` — Завершение тренировки, сохранение результата
+- `GET /workout/sessions` — Получение списка всех сохранённых тренировочных сессий
 - `WS /ws/workout` — WebSocket для отправки событий о повторениях
 
 ## Пример работы WebSocket
@@ -74,6 +75,23 @@
   "status": "success",
   "workout_id": 1
 }
+```
+
+## Принцип работы /workout/sessions
+
+Этот эндпоинт возвращает список всех сохранённых тренировочных сессий из базы данных PostgreSQL. В ответе содержатся поля: id, user_id, exercise_type, total_reps, created_at.
+
+**Пример ответа:**
+```json
+[
+  {
+    "id": 1,
+    "user_id": "1",
+    "exercise_type": "squat",
+    "total_reps": 15,
+    "created_at": "2024-06-09T12:34:56"
+  },
+]
 ```
 
 ## Миграции
