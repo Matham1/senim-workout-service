@@ -25,7 +25,6 @@ async def workout_endpoint(websocket: WebSocket):
             event_data = RepDetectionEvent(**payload)
 
             if event_data.event == "rep_detected":
-                # Check if the session was cleared by the HTTP finish endpoint
                 # If Redis is empty but we previously had reps, it's a new session
                 redis_reps = await workout_service.get_total_reps(current_session_id) #
                 
