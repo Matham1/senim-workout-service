@@ -5,7 +5,6 @@ from sqlalchemy import insert
 import datetime
 
 async def save_workout_session(user_id: str, exercise_type: str, session_id: str) -> int:
-    # 1. Get total reps from Redis
     try:
         total_reps = await workout_service.get_total_reps(session_id)
     except Exception as e:

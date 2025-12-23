@@ -1,6 +1,6 @@
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 from app.services.redis_service import workout_service
-from app.schemas.schemas import RepDetectionEvent, WorkoutStatus, SessionStartEvent
+from app.schemas.schemas import RepDetectionEvent, WorkoutStatus
 import json
 import logging
 import uuid

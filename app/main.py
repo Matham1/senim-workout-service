@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from app.services.redis_service import workout_service
-from app.api.endpoints import router as api_router
+from app.routers.workout import router as api_router
 
 app = FastAPI(title="Basira Workout Tracker")
 

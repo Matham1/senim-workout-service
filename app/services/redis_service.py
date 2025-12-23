@@ -23,7 +23,7 @@ class WorkoutRedisService:
         is_allowed = await self.redis.set(lock_key, "locked", nx=True, ex=1)
 
         if not is_allowed:
-            # Logic: Lock exists, 1 second has not passed since last rep.
+            # if lock exists, 1 second has not passed since last rep.
             return None
 
         # Increment the rep count only if lock was acquired

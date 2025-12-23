@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException, Depends
-from app.api.websocket import router as ws_router
+from app.routers.websocket import router as ws_router
 from app.services.workout_manager import save_workout_session
 from app.db.base import get_async_session
 from sqlalchemy.ext.asyncio import AsyncSession
